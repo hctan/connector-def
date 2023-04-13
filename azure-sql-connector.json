@@ -1,0 +1,1557 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Azure SQL",
+    "description": "Azure SQL",
+    "version": "1.0.0"
+  },
+  "x-ntx-contract-id": "74392b4b-753a-46b7-9026-3700fb36074a",
+  "x-ntx-render-version": 2,
+  "host": "wus-asq-nxc.nintextest.io",
+  "basePath": "/api/v1",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic",
+      "x-ntx-connection-validation": {
+        "operationId": "ValidateConnection"
+      },
+      "x-ntx-connection-properties": {
+        "type": "object",
+        "required": [
+          "username",
+          "password",
+          "server",
+          "database"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "Example: sqladmin"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "server": {
+            "type": "string",
+            "title": "Database host",
+            "description": "Example: sqlserver.database.windows.net"
+          },
+          "database": {
+            "type": "string",
+            "title": "Database name"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "basic": []
+    }
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/GetTables": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get Tables",
+        "operationId": "GetTables",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tableType",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "TableType",
+            "type": "string",
+            "enum": [ "BaseTable", "View" ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/Tables"
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/GetTableSchema/All": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get a Table Schema All",
+        "operationId": "GetTableSchemaAll",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "SchemaDelimitedTableName",
+            "type": "string"
+          },
+          {
+            "name": "schemaOperation",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "SchemaOperation",
+            "type": "string",
+            "enum": [ "All" ],
+            "default": "All"
+          },
+          {
+            "name": "resultType",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "SchemaOperation",
+            "type": "string",
+            "enum": [ "Schema", "Object" ],
+            "default": "Schema"
+          },
+          {
+            "name": "tableType",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "TableType",
+            "type": "string",
+            "enum": [ "BaseTable", "View" ]
+          },
+          {
+            "name": "enableRegexValidation",
+            "in": "query",
+            "x-ntx-summary": "enableRegexValidation",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "items": {
+                "x-TestAutomation": "",
+                "$ref": "#/definitions/TableSchemaAll"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/GetTableSchema/Required": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get a Table Schema Required",
+        "operationId": "GetTableSchemaRequired",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "SchemaDelimitedTableName",
+            "type": "string"
+          },
+          {
+            "name": "schemaOperation",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "SchemaOperation",
+            "type": "string",
+            "enum": [ "Required" ],
+            "default": "Required"
+          },
+          {
+            "name": "resultType",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "Result type",
+            "type": "string",
+            "enum": [ "Schema", "Object" ],
+            "default": "Schema"
+          },
+          {
+            "name": "tableType",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "TableType",
+            "type": "string",
+            "enum": [ "BaseTable", "View" ]
+          },
+          {
+            "name": "enableRegexValidation",
+            "in": "query",
+            "x-ntx-summary": "enableRegexValidation",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "items": {
+                "x-TestAutomation": "",
+                "$ref": "#/definitions/TableSchemaRequired"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/GetTableSchema/Editable": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get a Table Schema Editable",
+        "operationId": "GetTableSchemaEditable",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "SchemaDelimitedTableName",
+            "type": "string"
+          },
+          {
+            "name": "schemaOperation",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "SchemaOperation",
+            "type": "string",
+            "enum": [ "Editable" ],
+            "default": "Editable"
+          },
+          {
+            "name": "resultType",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "SchemaOperation",
+            "type": "string",
+            "enum": [ "Schema", "Object" ],
+            "default": "Schema"
+          },
+          {
+            "name": "tableType",
+            "in": "query",
+            "x-ntx-required": true,
+            "x-ntx-summary": "TableType",
+            "type": "string",
+            "enum": [ "BaseTable", "View" ]
+          },
+          {
+            "name": "enableRegexValidation",
+            "in": "query",
+            "x-ntx-summary": "enableRegexValidation",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "items": {
+                "x-TestAutomation": "",
+                "$ref": "#/definitions/TableSchemaEditable"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/GetRoutines": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get Routines",
+        "operationId": "GetRoutines",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "routineType",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "RoutineType",
+            "type": "string",
+            "enum": [ "Procedure", "Function" ],
+            "default": "Procedure"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/Routines"
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/TableQuery?tableType=BaseTable": {
+      "post": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Query a SQL table",
+        "operationId": "TableQuery",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "x-ntx-notification-url": true,
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "callback url",
+            "type": "string"
+          },
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Table",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "BaseTable"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Item limit",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 1000,
+            "x-ntx-initial": 1000,
+            "description": "Maximum of 5,000 items"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "x-ntx-summary": "",
+            "type": "string",
+            "x-ntx-query-builder": {
+              "schema": {
+                "x-ntx-dynamic-schema": {
+                  "operationId": "GetTableSchemaAll",
+                  "parameters": {
+                    "schemaDelimitedTableName": {
+                      "parameter": "schemaDelimitedTableName"
+                    },
+                    "tableType": "BaseTable",
+                    "resultType": "Schema"
+                  },
+                  "value-path": "schema/items"
+                }
+              },
+              "format": "odata4",
+              "exclusions": {
+                "Text": []
+              }
+            }
+          },
+          {
+            "name": "sortByField",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort by",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "schemaDelimitedTableName": {
+                  "parameter": "schemaDelimitedTableName"
+                },
+                "tableType": "BaseTable",
+                "resultType": "Object"
+              },
+              "operationId": "GetTableSchemaAll",
+              "value-path": "name",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort order",
+            "type": "string",
+            "enum": [ "Ascending", "Descending" ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Result",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Items",
+              "properties": {
+                "rowCount": {
+                  "x-ntx-summary": "Number of rows returned",
+                  "type": "integer",
+                  "title": "Row Count"
+                },
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultSet": {
+                  "x-ntx-summary": "Rows",
+                  "title": "Items",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-ntx-dynamic-schema": {
+                      "operationId": "GetTableSchemaAll",
+                      "parameters": {
+                        "schemaDelimitedTableName": {
+                          "parameter": "schemaDelimitedTableName"
+                        },
+                        "tableType": "BaseTable",
+                        "resultType": "Schema"
+                      },
+                      "value-path": "schema/items"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/TableQuery/DataSource?tableType=BaseTable": {
+      "post": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Query a SQL table",
+        "operationId": "TableQueryDataSource",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Table",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "BaseTable"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Item limit",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 1000,
+            "x-ntx-initial": 1000,
+            "description": "Maximum of 5,000 items"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "x-ntx-summary": "",
+            "type": "string",
+            "x-ntx-query-builder": {
+              "schema": {
+                "x-ntx-dynamic-schema": {
+                  "operationId": "GetTableSchemaAll",
+                  "parameters": {
+                    "schemaDelimitedTableName": {
+                      "parameter": "schemaDelimitedTableName"
+                    },
+                    "tableType": "BaseTable",
+                    "resultType": "Schema"
+                  },
+                  "value-path": "schema/items"
+                }
+              },
+              "format": "odata4",
+              "exclusions": {
+                "Text": []
+              }
+            }
+          },
+          {
+            "name": "sortByField",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort by",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "schemaDelimitedTableName": {
+                  "parameter": "schemaDelimitedTableName"
+                },
+                "tableType": "BaseTable",
+                "resultType": "Object"
+              },
+              "operationId": "GetTableSchemaAll",
+              "value-path": "name",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort order",
+            "type": "string",
+            "enum": [ "Ascending", "Descending" ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Result",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Items",
+              "properties": {
+                "rowCount": {
+                  "x-ntx-summary": "Number of rows returned",
+                  "type": "integer",
+                  "title": "Row Count"
+                },
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultSet": {
+                  "x-ntx-summary": "Rows",
+                  "title": "Items",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-ntx-dynamic-schema": {
+                      "operationId": "GetTableSchemaAll",
+                      "parameters": {
+                        "schemaDelimitedTableName": {
+                          "parameter": "schemaDelimitedTableName"
+                        },
+                        "tableType": "BaseTable",
+                        "resultType": "Schema"
+                      },
+                      "value-path": "schema/items"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/TableInsert": {
+      "post": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Create a SQL record",
+        "operationId": "TableInsert",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "x-ntx-notification-url": true,
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "callback url",
+            "type": "string"
+          },
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Table",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "BaseTable",
+                "resultType": "Schema"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/TableSchemaRequiredWithRegexValidation"
+            },
+            "x-ntx-summary": "Add fields"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Item",
+              "properties": {
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultItem": {
+                  "x-ntx-summary": "Result Item",
+                  "title": "Result Item",
+                  "type": "object",
+                  "x-ntx-dynamic-schema": {
+                    "operationId": "GetTableSchemaAll",
+                    "parameters": {
+                      "schemaDelimitedTableName": {
+                        "parameter": "schemaDelimitedTableName"
+                      },
+                      "tableType": "BaseTable",
+                      "resultType": "Schema"
+                    },
+                    "value-path": "schema/items"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/RoutineExecute": {
+      "post": {
+        "tags": [
+          "Routine"
+        ],
+        "summary": "Execute a SQL stored procedure",
+        "operationId": "RoutineExecute",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "x-ntx-notification-url": true,
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "callback url",
+            "type": "string"
+          },
+          {
+            "name": "schemaDelimitedRoutineName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Stored procedure",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "routineType": "Procedure"
+              },
+              "operationId": "GetRoutines",
+              "value-path": "schemaDelimitedRoutineName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/RoutineSchemaWithRegexValidation"
+            },
+            "x-ntx-summary": "Parameters"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Item limit",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 1000,
+            "x-ntx-initial": 1000,
+            "description": "Maximum of 5,000 items"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Items",
+              "properties": {
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultSet": {
+                  "x-ntx-summary": "Rows",
+                  "title": "Stored procedure result",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-ntx-dynamic-schema": {
+                      "operationId": "GetRoutineResultSet",
+                      "parameters": {
+                        "schemaDelimitedRoutineName": {
+                          "parameter": "schemaDelimitedRoutineName"
+                        }
+                      },
+                      "value-path": "schema/items"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/RoutineExecute/DataSource": {
+      "post": {
+        "tags": [
+          "Routine"
+        ],
+        "summary": "Execute a SQL stored procedure",
+        "operationId": "RoutineExecuteDS",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-visibility": "internal",
+        "parameters": [
+          {
+            "name": "schemaDelimitedRoutineName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Stored procedure",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "routineType": "Procedure"
+              },
+              "operationId": "GetRoutines",
+              "value-path": "schemaDelimitedRoutineName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/RoutineSchema"
+            },
+            "x-ntx-summary": "Parameters"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Item limit",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 1000,
+            "x-ntx-initial": 1000,
+            "description": "Maximum of 5,000 items"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Items",
+              "properties": {
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultSet": {
+                  "x-ntx-summary": "Rows",
+                  "title": "Stored procedure result",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-ntx-dynamic-schema": {
+                      "operationId": "GetRoutineResultSet",
+                      "parameters": {
+                        "schemaDelimitedRoutineName": {
+                          "parameter": "schemaDelimitedRoutineName"
+                        }
+                      },
+                      "value-path": "schema/items"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        }
+      }
+    },
+    "/TableQuery?tableType=View": {
+      "post": {
+        "tags": [
+          "View"
+        ],
+        "summary": "Query a SQL view",
+        "operationId": "ViewQuery",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "x-ntx-notification-url": true,
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "callback url",
+            "type": "string"
+          },
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "View",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "View"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Item limit",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 1000,
+            "x-ntx-initial": 1000,
+            "description": "Maximum of 5,000 items"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "x-ntx-summary": "",
+            "type": "string",
+            "x-ntx-query-builder": {
+              "schema": {
+                "x-ntx-dynamic-schema": {
+                  "operationId": "GetTableSchemaAll",
+                  "parameters": {
+                    "schemaDelimitedTableName": {
+                      "parameter": "schemaDelimitedTableName"
+                    },
+                    "tableType": "View",
+                    "resultType": "Schema"
+                  },
+                  "value-path": "schema/items"
+                }
+              },
+              "format": "odata4",
+              "exclusions": {
+                "Text": []
+              }
+            }
+          },
+          {
+            "name": "sortByField",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort by",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "schemaDelimitedTableName": {
+                  "parameter": "schemaDelimitedTableName"
+                },
+                "tableType": "View",
+                "resultType": "Object"
+              },
+              "operationId": "GetTableSchemaAll",
+              "value-path": "name",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort order",
+            "type": "string",
+            "enum": [ "Ascending", "Descending" ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Result",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Items",
+              "properties": {
+                "rowCount": {
+                  "x-ntx-summary": "Number of rows returned",
+                  "type": "integer",
+                  "title": "Row Count"
+                },
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultSet": {
+                  "x-ntx-summary": "Rows",
+                  "title": "Items",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-ntx-dynamic-schema": {
+                      "operationId": "GetTableSchemaAll",
+                      "parameters": {
+                        "schemaDelimitedTableName": {
+                          "parameter": "schemaDelimitedTableName"
+                        },
+                        "tableType": "View",
+                        "resultType": "Schema"
+                      },
+                      "value-path": "schema/items"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/TableQuery/DataSource?tableType=View": {
+      "post": {
+        "tags": [
+          "View"
+        ],
+        "summary": "Query a SQL view",
+        "operationId": "ViewQueryDataSource",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "View",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "View"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Item limit",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 1000,
+            "x-ntx-initial": 1000,
+            "description": "Maximum of 5,000 items"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "x-ntx-summary": "",
+            "type": "string",
+            "x-ntx-query-builder": {
+              "schema": {
+                "x-ntx-dynamic-schema": {
+                  "operationId": "GetTableSchemaAll",
+                  "parameters": {
+                    "schemaDelimitedTableName": {
+                      "parameter": "schemaDelimitedTableName"
+                    },
+                    "tableType": "View",
+                    "resultType": "Schema"
+                  },
+                  "value-path": "schema/items"
+                }
+              },
+              "format": "odata4",
+              "exclusions": {
+                "Text": []
+              }
+            }
+          },
+          {
+            "name": "sortByField",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort by",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "schemaDelimitedTableName": {
+                  "parameter": "schemaDelimitedTableName"
+                },
+                "tableType": "View",
+                "resultType": "Object"
+              },
+              "operationId": "GetTableSchemaAll",
+              "value-path": "name",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Sort order",
+            "type": "string",
+            "enum": [ "Ascending", "Descending" ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Result",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "title": "Items",
+              "properties": {
+                "rowCount": {
+                  "x-ntx-summary": "Number of rows returned",
+                  "type": "integer",
+                  "title": "Row Count"
+                },
+                "fullResultSet": {
+                  "x-ntx-summary": "Is full result set",
+                  "title": "Full Result Set",
+                  "type": "boolean"
+                },
+                "resultSet": {
+                  "x-ntx-summary": "Rows",
+                  "title": "Items",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "x-ntx-dynamic-schema": {
+                      "operationId": "GetTableSchemaAll",
+                      "parameters": {
+                        "schemaDelimitedTableName": {
+                          "parameter": "schemaDelimitedTableName"
+                        },
+                        "tableType": "View",
+                        "resultType": "Schema"
+                      },
+                      "value-path": "schema/items"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/GetRoutineSchema": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get a Routine Schema",
+        "operationId": "GetRoutineSchema",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedRoutineName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "SchemaDelimitedRoutineName",
+            "type": "string"
+          },
+          {
+            "name": "enableRegexValidation",
+            "in": "query",
+            "x-ntx-summary": "enableRegexValidation",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/RoutineSchema"
+            }
+          }
+        }
+      }
+    },
+    "/GetRoutineResultSet": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Get a Routine result set",
+        "operationId": "GetRoutineResultSet",
+        "x-ntx-visibility": "internal",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "schemaDelimitedRoutineName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "SchemaDelimitedRoutineName",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/TableDelete": {
+      "delete": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Delete SQL records",
+        "operationId": "TableDelete",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "x-ntx-notification-url": true,
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "callback url",
+            "type": "string"
+          },
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Table",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "BaseTable"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "x-ntx-summary": "",
+            "type": "string",
+            "x-ntx-query-builder": {
+              "schema": {
+                "x-ntx-dynamic-schema": {
+                  "operationId": "GetTableSchemaAll",
+                  "parameters": {
+                    "schemaDelimitedTableName": {
+                      "parameter": "schemaDelimitedTableName"
+                    },
+                    "tableType": "BaseTable",
+                    "resultType": "Schema"
+                  },
+                  "value-path": "schema/items"
+                }
+              },
+              "format": "odata4",
+              "exclusions": {
+                "Text": []
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Result",
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false,
+              "title": "Records affected"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/TableUpdate": {
+      "patch": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Update SQL records",
+        "operationId": "TableUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "x-ntx-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "x-ntx-notification-url": true,
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "callback url",
+            "type": "string"
+          },
+          {
+            "name": "schemaDelimitedTableName",
+            "in": "query",
+            "required": true,
+            "x-ntx-summary": "Table",
+            "type": "string",
+            "x-ntx-dynamic-values": {
+              "parameters": {
+                "tableType": "BaseTable"
+              },
+              "operationId": "GetTables",
+              "value-path": "schemaDelimitedTableName",
+              "value-title": "title"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "x-TestAutomation": "",
+              "$ref": "#/definitions/TableSchemaEditableWithRegexValidation"
+            },
+            "x-ntx-summary": "Add fields"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "x-ntx-summary": "",
+            "type": "string",
+            "x-ntx-query-builder": {
+              "schema": {
+                "x-ntx-dynamic-schema": {
+                  "operationId": "GetTableSchemaAll",
+                  "parameters": {
+                    "schemaDelimitedTableName": {
+                      "parameter": "schemaDelimitedTableName"
+                    },
+                    "tableType": "BaseTable",
+                    "resultType": "Schema"
+                  },
+                  "value-path": "schema/items"
+                }
+              },
+              "format": "odata4",
+              "exclusions": {
+                "Text": []
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Result",
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false,
+              "title": "Records affected"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    },
+    "/x-ntx-validate": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "x-ntx-visibility": "internal",
+        "operationId": "ValidateConnection",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "SchemaDelimitedTableName": {
+            "type": "string"
+          },
+          "Title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TableSchemaAll": {
+      "type": "object",
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetTableSchemaAll",
+        "parameters": {
+          "schemaDelimitedTableName": {
+            "parameter": "schemaDelimitedTableName"
+          },
+          "tableType": "BaseTable"
+        },
+        "value-path": "schema/items"
+      }
+    },
+    "Routines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "SchemaDelimitedRoutineName": {
+            "type": "string"
+          },
+          "Title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RoutineSchemaWithRegexValidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetRoutineSchema",
+        "parameters": {
+          "schemaDelimitedRoutineName": {
+            "parameter": "schemaDelimitedRoutineName"
+          },
+          "enableRegexValidation": true
+        },
+        "value-path": "schema/items"
+      }
+    },
+    "TableSchemaRequired": {
+      "type": "object",
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetTableSchemaRequired",
+        "parameters": {
+          "schemaDelimitedTableName": {
+            "parameter": "schemaDelimitedTableName"
+          },
+          "tableType": "BaseTable"
+        },
+        "value-path": "schema/items"
+      }
+    },
+    "TableSchemaRequiredWithRegexValidation": {
+      "type": "object",
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetTableSchemaRequired",
+        "parameters": {
+          "schemaDelimitedTableName": {
+            "parameter": "schemaDelimitedTableName"
+          },
+          "tableType": "BaseTable",
+          "enableRegexValidation": true
+        },
+        "value-path": "schema/items"
+      }
+    },
+    "TableSchemaEditable": {
+      "type": "object",
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetTableSchemaEditable",
+        "parameters": {
+          "schemaDelimitedTableName": {
+            "parameter": "schemaDelimitedTableName"
+          },
+          "tableType": "BaseTable"
+        },
+        "value-path": "schema/items"
+      }
+    },
+    "TableSchemaEditableWithRegexValidation": {
+      "type": "object",
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetTableSchemaEditable",
+        "parameters": {
+          "schemaDelimitedTableName": {
+            "parameter": "schemaDelimitedTableName"
+          },
+          "tableType": "BaseTable",
+          "enableRegexValidation": true
+        },
+        "value-path": "schema/items"
+      }
+    },
+    "RoutineSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-ntx-dynamic-schema": {
+        "operationId": "GetRoutineSchema",
+        "parameters": {
+          "schemaDelimitedRoutineName": {
+            "parameter": "schemaDelimitedRoutineName"
+          }
+        },
+        "value-path": "schema/items"
+      }
+    }
+  }
+}
